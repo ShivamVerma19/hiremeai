@@ -9,6 +9,8 @@ import {
   Plus,
   MessageSquare,
   Trash2,
+  Menu,
+  X,
 } from "lucide-react";
 import {
   loadConversations,
@@ -50,14 +52,13 @@ export default function Chat() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  // Load saved conversations once on mount
   useEffect(() => {
     setConversations(loadConversations());
   }, []);
 
-  // Persist on every change
   useEffect(() => {
     saveConversations(conversations);
   }, [conversations]);
@@ -156,16 +157,39 @@ export default function Chat() {
 
   return (
     <div className="min-h-screen flex">
+      {/* Mobile overlay backdrop */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="hidden md:flex w-64 shrink-0 flex-col border-r border-raised bg-surface/50">
-        <div className="p-3">
+      <aside
+        className={`fixed md:static inset-y-0 left-0 z-50 w-64 shrink-0 flex-col
+                    border-r border-raised bg-surface md:bg-surface/50
+                    transform transition-transform duration-200
+                    ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+                    md:translate-x-0 flex`}
+      >
+        <div className="p-3 flex items-center gap-2">
           <button
-            onClick={handleNewChat}
-            className="w-full flex items-center gap-2 rounded-xl border border-white/10
+            onClick={() => {
+              handleNewChat();
+              setSidebarOpen(false);
+            }}
+            className="flex-1 flex items-center gap-2 rounded-xl border border-white/10
                        px-3 py-2.5 text-sm text-hi hover:bg-raised transition-colors"
           >
             <Plus className="w-4 h-4" />
             New chat
+          </button>
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="md:hidden p-2 text-lo hover:text-hi"
+          >
+            <X className="w-4 h-4" />
           </button>
         </div>
 
@@ -176,7 +200,10 @@ export default function Chat() {
             .map((c) => (
               <button
                 key={c.id}
-                onClick={() => setActiveId(c.id)}
+                onClick={() => {
+                  setActiveId(c.id);
+                  setSidebarOpen(false);
+                }}
                 className={`w-full group flex items-center gap-2 rounded-lg px-3 py-2 text-left text-sm
                             transition-colors ${
                               c.id === activeId
@@ -200,15 +227,23 @@ export default function Chat() {
       {/* Main chat area */}
       <div className="flex-1 flex flex-col min-w-0">
         <header className="border-b border-raised px-6 py-4 flex items-center justify-between">
-          <button onClick={() => navigate("/")} className="flex items-center gap-2">
-            <span className="w-7 h-7 rounded-full bg-gold text-ink font-serif text-sm font-bold flex items-center justify-center shrink-0">
-              S
-            </span>
-            <span className="font-serif text-lg">HireMeAI</span>
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="md:hidden text-lo hover:text-hi"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+            <button onClick={() => navigate("/")} className="flex items-center gap-2">
+              <span className="w-7 h-7 rounded-full bg-gold text-ink font-serif text-sm font-bold flex items-center justify-center shrink-0">
+                S
+              </span>
+              <span className="font-serif text-lg">HireMeAI</span>
+            </button>
+          </div>
           <span className="text-xs text-lo flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
-            Interviewing Shivam Verma
+            <span className="hidden sm:inline">Interviewing Shivam Verma</span>
           </span>
         </header>
 
@@ -264,7 +299,7 @@ export default function Chat() {
           </div>
         </main>
 
-        <footer className="border-t border-raised px-6 py-4">
+        <footer className="border-t border-raised px-4 sm:px-6 py-4">
           <div className="max-w-[720px] mx-auto flex items-end gap-3 bg-surface rounded-2xl px-4 py-3">
             <textarea
               value={input}
