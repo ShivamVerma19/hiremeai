@@ -1,0 +1,113 @@
+{
+  "name": "SHIVAM VERMA",
+  "email": "shivamverma19401940@gmail.com",
+  "phone": "+91 6200084678",
+  "total_experience": 1.5,
+  "skills": [
+    "Java",
+    "Python",
+    "C++",
+    "Kotlin",
+    "Spring Boot",
+    "FastAPI",
+    "REST APIs",
+    "JWT Authentication",
+    "Docker",
+    "CI/CD",
+    "LangChain",
+    "LangGraph",
+    "FAISS",
+    "OpenAI API",
+    "Google Generative AI",
+    "NLP",
+    "MySQL",
+    "Firebase Firestore",
+    "Room Database",
+    "Git",
+    "GitHub",
+    "Postman",
+    "VS Code",
+    "Android Studio",
+    "Figma",
+    "Jetpack Compose",
+    "Android Jetpack",
+    "MVVM",
+    "ExoPlayer(Media3)",
+    "Google IMA SDK",
+    "Retrofit",
+    "Coroutines"
+  ],
+  "experiences": [
+    {
+      "company": "VideoGate Technologies Pvt. Ltd.",
+      "role": "Software Developer",
+      "duration": "Dec 2025 – Present",
+      "description": "Architected and shipped a complete advertisement pipeline across three microservices, including database schema design, REST APIs, and VAST 3.0/4.2 skipoffset generation supporting both single and podded ad breaks. Integrated pre-, mid-, and post-roll advertisements for DRM-protected live streams using Google IMA SDK, VMAP, and ExoPlayer (Media3); implemented centralized ad gating, ad-tag generation, and playback controls. Built a dual-tier PPV purchasing flow (subscribed/unsubscribed pricing) with Cashfree payment integration for Android live streams; integrated with backend APIs and resolved a client-side pricing issue by refetching stream details after purchase. Resolved critical production crashes and stability issues; contributed to features shipped on the Google Play Store application Home Cinema Plus.",
+      "skills_used": [
+        "Kotlin",
+        "Jetpack Compose",
+        "ExoPlayer(Media3)",
+        "Google IMA SDK",
+        "Retrofit",
+        "Coroutines",
+        "Spring Boot",
+        "FastAPI",
+        "REST APIs",
+        "JWT Authentication",
+        "Docker"
+      ]
+    },
+    {
+      "company": "Sagenest",
+      "role": "Software Developer Intern (Backend / AI)",
+      "duration": "Aug 2025 – Oct 2025",
+      "description": "Designed and developed secure REST APIs using Spring Boot with JWT authentication and role-based access control. Built AI-powered roadmap generation and content summarization features using LLM APIs. Developed a LangGraph-based chatbot with FAISS vector search and session-aware conversations. Wrote unit and integration tests using JUnit and validated APIs using Postman. Contributed to backend features for Sagenest, an AI-powered platform.",
+      "skills_used": [
+        "Spring Boot",
+        "JWT Authentication",
+        "REST APIs",
+        "LangGraph",
+        "FAISS",
+        "LLM APIs",
+        "JUnit",
+        "Postman"
+      ]
+    },
+    {
+      "company": "BrainwaveLaw",
+      "role": "Software Development Intern (AI / Backend)",
+      "duration": "Jun 2024 – Dec 2024",
+      "description": "Developed backend services using FastAPI for AI-powered legal document retrieval. Built document retrieval and summarization pipelines using LangChain, FAISS and LLMs. Implemented multi-turn conversational legal chatbots with contextual question answering. Containerized backend services using Docker.",
+      "skills_used": [
+        "FastAPI",
+        "LangChain",
+        "FAISS",
+        "LLM",
+        "Docker"
+      ]
+    },
+    {
+      "company": "One Card Solution Pvt. Ltd.",
+      "role": "Android Developer Intern",
+      "duration": "Jan 2024 – Feb 2024",
+      "description": "Designed Android UI screens using XML layouts from Figma designs.",
+      "skills_used": [
+        "Android Studio",
+        "XML",
+        "Figma"
+      ]
+    }
+  ],
+  "projects": [
+    "Yournal – Built an offline journaling and task management application using Jetpack Compose and Room Database following MVVM architecture. Tech Stack: Kotlin, Jetpack Compose, Room, MVVM.",
+    "E-Shop – Developed an e-commerce Android application with Firebase Authentication, Razorpay integration and Room-based offline storage. Tech Stack: Kotlin, Firebase, Razorpay, Coroutines, Room."
+  ],
+  "certifications": [
+    "C++ Foundation with Data Structures – Coding Ninjas",
+    "Android App Development Master Course – Coding Blocks/n"
+  ],
+  "educations": [
+    "VIT Bhopal University 2020–2024 – B.Tech in Computer Science and Engineering GPA: 8.0/10"
+  ],
+  "self_assessment": null
+}

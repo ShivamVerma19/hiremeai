@@ -16,10 +16,10 @@ load_dotenv()
 
 my_api_key = os.getenv("GROQ_API_KEY")
 
-if not my_api_key :
+if not my_api_key:
     raise ValueError("API key kaha hai bro")
 
-client = Groq(api_key = my_api_key)
+client = Groq(api_key=my_api_key)
 
 model = "openai/gpt-oss-20b"
 
@@ -121,24 +121,38 @@ MY_SELF_ASSESSMENT = SelfAssessment(
 )
 
 RESUME_PATH = Path("Shivam Verma Resume.pdf")
+RESUME_CACHE_PATH = Path("resume_data.json")
 
-# module-level cache
+# module-level cache (in-memory, populated from the JSON file at startup)
 _cached_resume: Resume | None = None
 
+
 def get_parsed_resume() -> Resume:
+    """
+    Loads the pre-parsed resume from resume_data.json (fast, no LLM call).
+    Run build_resume_cache.py manually to regenerate this file after
+    updating the resume PDF.
+    """
     global _cached_resume
     if _cached_resume is None:
-        resume_text = read_pdf(RESUME_PATH)
-        resume = parse_resume(resume_text)
+        if not RESUME_CACHE_PATH.exists():
+            raise RuntimeError(
+                f"{RESUME_CACHE_PATH} not found. Run `python build_resume_cache.py` "
+                "once to generate it before starting the server."
+            )
+        data = json.loads(RESUME_CACHE_PATH.read_text(encoding="utf-8"))
+        resume = Resume(**data)
         resume.self_assessment = MY_SELF_ASSESSMENT
-        _cached_resume = resume        # <-- this line was missing
+        _cached_resume = resume
     return _cached_resume
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # warm the cache on startup so the first request is fast too
+    # instant now — just reads a JSON file off disk, no LLM call
     get_parsed_resume()
     yield
+
 
 app = FastAPI(lifespan=lifespan)
 
@@ -147,11 +161,12 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "https://hiremeai-seven.vercel.app",
-        ],
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 #give answer according to resume and question
 def ask_candidate_stream(messages: list[ChatMessage], resume: Resume):
@@ -214,7 +229,7 @@ def ask_candidate_stream(messages: list[ChatMessage], resume: Resume):
             yield delta
 
 
-#parse resume
+#parse resume — still used, but only by build_resume_cache.py now, not at request time
 def parse_resume(resume_text):
     system_prompt = f"""
     You are an expert resume parser.
@@ -266,12 +281,12 @@ def parse_resume(resume_text):
         "type": "json_object"
     }
     response = client.chat.completions.create(
-    model=model,
-    messages=messages,
-    response_format=response_format,
-    max_tokens=8192,
-    temperature=0,
-    reasoning_effort="low",
+        model=model,
+        messages=messages,
+        response_format=response_format,
+        max_tokens=8192,
+        temperature=0,
+        reasoning_effort="low",
     )
     raw_output = response.choices[0].message.content
     data = json.loads(raw_output)
@@ -279,7 +294,7 @@ def parse_resume(resume_text):
     return resume
 
 
-#read pdf
+#read pdf — still used by build_resume_cache.py
 def read_pdf(file_path: Path):
     reader = PdfReader(file_path)
     text = ""
@@ -295,11 +310,8 @@ def read_pdf(file_path: Path):
 
 @app.get("/")
 def home():
-    # resume_text = read_pdf(Path("Shivam Verma Resume.pdf"))
-    # parsed_resume = parse_resume(resume_text)
-    # print(parsed_resume.model_dump_json(indent=2))
-    return{
-        "message" : "resume parsed !!"
+    return {
+        "message": "resume parsed !!"
     }
 
 @app.post("/chat")
