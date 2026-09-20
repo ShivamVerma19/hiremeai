@@ -36,10 +36,14 @@ My personal portfolio site — with an AI chatbot that lets recruiters and inter
 ## 📸 Screenshots
 
 <p align="center">
-  <img src="screenshots/home.png" width="220"/>
-  <img src="screenshots/chat.png" width="220"/>
+  <img src="screenshots/home.png" width="800"/>
 </p>
-<p align="center"><em>Home · AI Chat</em></p>
+<p align="center"><em>Home</em></p>
+
+<p align="center">
+  <img src="screenshots/chat.png" width="800"/>
+</p>
+<p align="center"><em>AI Chat</em></p>
 
 ---
 
